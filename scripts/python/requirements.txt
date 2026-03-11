@@ -1,0 +1,2 @@
+# PromptOps Python Dependencies
+# TODO(v2): Add pyyaml, jsonschema, ruff for production usage.

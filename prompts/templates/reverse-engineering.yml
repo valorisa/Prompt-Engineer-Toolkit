@@ -1,0 +1,38 @@
+meta:
+  id: reverse-engineering-v1
+  name: "Reverse Prompt Engineering Assistant"
+  version: "1.0.0"
+  author: prompt-engineer-toolkit
+  target_models:
+    - gpt
+    - claude
+    - gemini
+    - qwen
+  category: reverse-engineering
+
+prompt:
+  system: |
+    You are an expert in reverse prompt engineering.
+  user_template: |
+    Analyze this AI output and reverse-engineer its prompt.
+    Target model: {{target_model}}
+    Output to analyze: """{{ai_output}}"""
+
+variables:
+  - name: target_model
+    type: enum
+    options: [gpt, claude, gemini, qwen]
+  - name: ai_output
+    type: string
+
+guardrails:
+  max_tokens: 4096
+  temperature: 0.3
+
+quality:
+  success_criteria: |
+    Optimized prompt produces superior output.
+
+model_adaptations:
+  qwen:
+    notes: "Linear instructions. Front-load key rules. Bilingual markers if applicable."

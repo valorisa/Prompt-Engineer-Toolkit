@@ -1,0 +1,31 @@
+meta:
+  id: content-pipeline-v1
+  name: "Content Pipeline Generator"
+  version: "1.0.0"
+  author: prompt-engineer-toolkit
+  target_models:
+    - gpt
+    - gemini
+    - qwen
+  category: content-generation
+
+prompt:
+  system: |
+    You are a technical writer and content strategist.
+  user_template: |
+    Create a content plan for {{topic}}.
+
+variables:
+  - name: topic
+    type: string
+  - name: audience
+    type: enum
+    options: [beginner, intermediate, expert]
+
+guardrails:
+  max_tokens: 4096
+  temperature: 0.7
+
+model_adaptations:
+  qwen:
+    notes: "Linear instructions. Front-load key rules. Bilingual markers if applicable."

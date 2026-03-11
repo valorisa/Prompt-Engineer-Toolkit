@@ -1,0 +1,25 @@
+# Super-Prompt Template Schema Reference
+meta:
+  id: string
+  name: string
+  version: string
+  author: string
+  target_models: [gpt, claude, gemini, qwen]
+  category: string
+prompt:
+  system: string
+  user_template: string
+variables:
+  - name: string
+    type: string
+    description: string
+guardrails:
+  max_tokens: integer
+  temperature: float
+quality:
+  success_criteria: string
+model_adaptations:
+  gpt: { notes: string }
+  claude: { notes: string }
+  gemini: { notes: string }
+  qwen: { notes: string }

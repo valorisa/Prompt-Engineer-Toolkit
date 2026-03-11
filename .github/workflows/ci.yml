@@ -1,0 +1,76 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  lint-markdown:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Lint Markdown
+        run: npx markdownlint-cli2 "**/*.md"
+
+  lint-shell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: ShellCheck
+        uses: ludeeus/action-shellcheck@v2
+        with:
+          check_together: 'yes'
+          scan: "scripts/"
+
+  test-powershell:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        pwsh: [5.1, 7.4]
+        exclude:
+          - os: ubuntu-latest
+            pwsh: 5.1
+          - os: macos-latest
+            pwsh: 5.1
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup PowerShell
+        uses: microsoft/setup-powershell@v1
+        with:
+          version: ${{ matrix.pwsh }}
+      - name: Install Pester
+        run: pwsh -Command "Install-Module -Name Pester -Force -SkipPublisherCheck"
+      - name: Run Tests
+        run: pwsh -Command "Invoke-Pester ./tests -CI -Output Detailed"
+
+  test-python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install -r scripts/python/requirements.txt
+      - name: Lint and Test
+        run: |
+          pytest tests/
+          ruff check scripts/python/
+
+  test-node:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+      - name: Install and Test
+        run: |
+          cd scripts/node
+          npm ci
+          npm test

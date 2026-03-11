@@ -1,0 +1,12 @@
+{
+  "name": "promptops-node-utils",
+  "version": "1.0.0",
+  "description": "Node.js utilities for prompt-engineer-toolkit",
+  "main": "promptops.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint promptops.js"
+  },
+  "author": "prompt-engineer-toolkit",
+  "license": "MIT"
+}

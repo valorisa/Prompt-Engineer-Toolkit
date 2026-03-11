@@ -1,0 +1,13 @@
+{
+  "name": "PromptOps Toolkit",
+  "build": {
+    "dockerfile": "../docker/Dockerfile"
+  },
+  "extensions": [
+    "ms-vscode.powershell",
+    "timonwong.shellcheck",
+    "DavidAnson.vscode-markdownlint",
+    "ms-python.python"
+  ],
+  "postCreateCommand": "pwsh -c 'Install-Module Pester -Force'"
+}

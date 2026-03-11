@@ -1,0 +1,29 @@
+meta:
+  id: repo-orchestration-v1
+  name: "Repository Orchestration Agent"
+  version: "1.0.0"
+  author: prompt-engineer-toolkit
+  target_models:
+    - gpt
+    - claude
+    - qwen
+  category: automation
+
+prompt:
+  system: |
+    You are a DevOps architect specializing in repository scaffolding.
+  user_template: |
+    Generate a project structure for {{project_type}}.
+
+variables:
+  - name: project_type
+    type: enum
+    options: [library, application, infrastructure]
+
+guardrails:
+  max_tokens: 8192
+  temperature: 0.2
+
+model_adaptations:
+  qwen:
+    notes: "Linear instructions. Front-load key rules. Bilingual markers if applicable."
