@@ -50,7 +50,7 @@ Ce projet fournit :
 ### 🖥️ Interactive CLI — PromptOps Console
 
 | Fonctionnalité | PowerShell | Bash/Zsh | Description |
-|---------------|------------|----------|-------------|
+| ------------- | ---------- | -------- | ----------- |
 | Menu interactif | ✅ | ✅ | Navigation guidée avec couleurs et validation |
 | Project Scaffold | ✅ | ✅ | Génération d'arborescence + `git init` optionnel |
 | Health Check | ✅ | ✅ | Validation linting et tests locaux |
@@ -62,7 +62,7 @@ Ce projet fournit :
 Templates conformes au schema [`prompts/templates/schema.yml`](prompts/templates/schema.yml) :
 
 | Template | Objectif | Modèles cibles |
-|----------|----------|---------------|
+| -------- | -------- | ------------- |
 | `reverse-engineering.yml` | Déduire et optimiser un prompt depuis une sortie IA | GPT, Claude, Gemini, Qwen |
 | `repo-orchestration.yml` | Générer une structure de projet + CI/CD | GPT, Claude, Qwen |
 | `content-pipeline.yml` | Planifier du contenu technique optimisé SEO | GPT, Gemini, Qwen |
@@ -119,7 +119,7 @@ Déclenchement automatique sur :
 ### Prérequis Système
 
 | Plateforme | Version minimale | Notes |
-|------------|-----------------|-------|
+| ---------- | --------------- | ----- |
 | **Windows** | PowerShell 5.1 ou 7.4+ | Git for Windows recommandé |
 | **macOS** | Bash 4+ ou Zsh 5+ | Installer via Homebrew si nécessaire |
 | **Linux** | Bash 4+ | `shellcheck` via apt/dnf |
@@ -375,7 +375,7 @@ graph LR
 ```
 
 | Job | Commande | Outil | Plateformes |
-|-----|----------|-------|-------------|
+| --- | -------- | ----- | ----------- |
 | `lint-markdown` | `npx markdownlint-cli2 "**/*.md"` | markdownlint | Ubuntu |
 | `lint-shell` | `shellcheck scripts/*.sh` | ShellCheck | Ubuntu |
 | `test-powershell` | `Invoke-Pester ./tests -CI` | Pester 5+ | Win/Ubuntu/macOS |
@@ -402,7 +402,7 @@ Déclenché sur tag `v*.*.*` :
 ⚠️ **Règle absolue** : Aucun secret, token ou credential ne doit être hardcodé.
 
 | Type | Méthode recommandée | Exemple |
-|------|---------------------|---------|
+| ---- | ------------------- | ------- |
 | GitHub Token | GitHub Secrets | `${{ secrets.GITHUB_TOKEN }}` |
 | API Key | Variable d'environnement | `$env:OPENAI_API_KEY` |
 | Config sensible | Fichier `.env` ignoré par Git | `.gitignore` inclut `.env` |
@@ -468,6 +468,117 @@ Nous accueillons les contributions ! Veuillez suivre ces étapes :
    - Un mainteneur validera les changements après approbation CI.
 
 > 📚 Lire [`CONTRIBUTING.md`](CONTRIBUTING.md) pour plus de détails.
+
+---
+
+## 🔧 Dépannage
+
+### Problèmes d'Encodage sous Windows (Erreur cp1252)
+
+#### Description du Problème
+
+Lors de la génération de digests de repository ou de la lecture de fichiers encodés en UTF-8 avec Python sous Windows, vous pouvez rencontrer l'erreur suivante :
+
+```text
+Error reading file with 'cp1252': 'charmap' codec can't decode byte 0x8f in position 2106: character maps to <undefined>
+```
+
+Cette erreur affecte les fichiers contenant :
+- Des caractères spéciaux UTF-8 (accents, émojis, symboles comme ✓, ⚠, →)
+- Des caractères non-ASCII de contributeurs internationaux
+- Des fichiers Markdown avec formatage spécial
+
+#### Cause Racine
+
+| Composant | Comportement |
+| --------- | -------- |
+| **Python sous Windows** | Utilise l'encodage système `cp1252` (Europe occidentale) par défaut quand aucun encodage n'est spécifié |
+| **Fichiers du Repository** | Encodés en UTF-8 (standard GitHub) |
+| **Outils comme `gitingest.exe`** | Peuvent ne pas spécifier l'encodage explicitement lors de la lecture des fichiers |
+| **PowerShell 5.1/7+** | Écrit correctement en UTF-8, mais Python lit avec le mauvais encodage |
+
+```python
+# ❌ Code problématique (utilise cp1252 par défaut sous Windows)
+with open('README.md', 'r') as f:
+    content = f.read()
+
+# ✅ Code correct (UTF-8 explicite)
+with open('README.md', 'r', encoding='utf-8') as f:
+    content = f.read()
+```
+
+#### Solution
+
+Un script Python dédié `generate_digest.py` est fourni à la racine du repository pour générer des digests avec une gestion correcte de l'encodage UTF-8.
+
+**Fonctionnalités Clés :**
+- `encoding='utf-8'` explicite sur toutes les opérations de lecture de fichiers
+- `encoding='utf-8'` explicite sur toutes les opérations d'écriture de fichiers
+- Gestion gracieuse des fichiers binaires ou non-UTF-8
+- Compatible multiplateforme (Windows, macOS, Linux)
+
+#### Utilisation
+
+```powershell
+# Générer un digest complet du repository
+python .\generate_digest.py . digest.txt
+
+# Spécifier un fichier de sortie personnalisé
+python .\generate_digest.py . mon-digest.txt
+
+# Vérifier l'absence d'erreurs d'encodage dans la sortie
+Select-String -Path .\digest.txt -Pattern "Error reading file with"
+# Ne doit retourner aucun résultat si tous les fichiers ont été lus correctement
+```
+
+#### Emplacement du Script
+
+```text
+prompt-engineer-toolkit/
+└── generate_digest.py    # Générateur de digest sécurisé UTF-8
+```
+
+#### Bonnes Pratiques de Prévention
+
+| Pratique | Implémentation |
+| -------- | -------------- |
+| **Toujours spécifier l'encodage** | `open(file, 'r', encoding='utf-8')` dans les scripts Python |
+| **Utiliser UTF-8 sans BOM** | Standard pour les fichiers `.md`, `.yml`, `.json`, `.sh` |
+| **UTF-8 avec BOM pour PowerShell** | Les fichiers `.ps1` peuvent bénéficier du BOM pour la compatibilité PS5.1 |
+| **Définir la variable d'environnement** | `$env:PYTHONIOENCODING = "utf-8"` avant d'exécuter des scripts Python |
+| **Utiliser l'outillage fourni** | Préférer `generate_digest.py` aux outils externes comme `gitingest.exe` |
+
+#### Fichiers Associés
+
+| Fichier | Objectif |
+| ---- | ------- |
+| `generate_digest.py` | Générateur de digest sécurisé UTF-8 (fourni) |
+| `scripts/python/promptops.py` | Exemple d'utilisation correcte de l'encodage dans les scripts du projet |
+| `docs/ARCHITECTURE.md` | Documente les standards d'encodage pour le projet |
+
+> **Note** : Ce problème est spécifique à Windows. macOS et Linux utilisent UTF-8 par défaut, donc l'erreur ne se produit pas sur ces plateformes. Cependant, le script fourni assure une cohérence multiplateforme.
+
+#### Exemple Concret Rencontré dans ce Projet
+
+**Contexte** : Génération du fichier `digest.txt` avec l'outil `gitingest.exe` sous PowerShell 7.4
+
+**Erreur** :
+```text
+FILE: README.md
+================================================
+Error reading file with 'cp1252': 'charmap' codec can't decode byte 0x8f in position 2106
+```
+
+**Résolution** :
+1. Création du script `generate_digest.py` avec encodage UTF-8 explicite
+2. Régénération du digest sans erreurs
+3. Documentation du problème dans cette section pour référence future
+
+**Commande de Vérification** :
+```powershell
+# Après correction, cette commande ne doit retourner aucune erreur
+Select-String -Path .\digest.txt -Pattern "Error reading file with"
+```
 
 ---
 
