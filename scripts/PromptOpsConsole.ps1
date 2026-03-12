@@ -19,7 +19,7 @@ param(
 $ScriptVersion = "1.0.0"
 
 if ($Help) { Get-Help $PSCommandPath; exit 0 }
-if ($Version) { Write-Host $ScriptVersion; exit 0 }
+if ($Version) { $ScriptVersion; exit 0 }
 
 Write-Host "PromptOps Console v$ScriptVersion"
 Write-Host "----------------------------------------"
@@ -31,3 +31,5 @@ Write-Host "[5] Health Check"
 Write-Host "[6] Settings"
 Write-Host "[0] Exit"
 Write-Host "----------------------------------------"
+
+
