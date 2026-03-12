@@ -40,7 +40,7 @@ jobs:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
         pwsh: [5.1, 7.4]
-      exclude:
+        exclude:
         - os: ubuntu-latest
           pwsh: 5.1
         - os: macos-latest
