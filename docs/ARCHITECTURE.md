@@ -44,6 +44,7 @@
 ```
 
 **Implementation**:
+
 - All scripts reference secrets via env vars only.
 - `.gitignore` explicitly excludes `*.env`, `*.secret`, `config.json`.
 - CI workflows use `secrets` context; never echo sensitive values.
@@ -162,6 +163,7 @@ Triggered on tag `v*.*.*`:
 | Config Persistence | ✅ | ✅ | ✅ | ✅ |
 
 **Fallback Logic**:
+
 - If `jq` unavailable, Bash CLI uses pure bash JSON parsing (limited).
 - If `git` unavailable, scaffold skips git init with warning.
 

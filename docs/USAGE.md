@@ -51,6 +51,7 @@ PromptOps Console v1.0.0
 ```
 
 **Behavior**:
+
 - Each option triggers a guided questionnaire (≥4 questions).
 - Inputs are validated before proceeding.
 - A summary is displayed before execution.
@@ -101,11 +102,13 @@ Templates reside in `prompts/templates/` and follow the schema defined in `promp
 ### Using a Template
 
 1. Copy the template to your working directory:
+
    ```bash
    cp prompts/templates/reverse-engineering.yml ./my-prompt.yml
    ```
 
 2. Fill in variables:
+
    ```yaml
    variables:
      target_model: "qwen"
