@@ -36,6 +36,7 @@
 **Prompt Engineer Toolkit** est un framework complet conçu pour les ingénieurs DevOps, les chercheurs en prompt engineering et les équipes techniques qui souhaitent industrialiser la création, l'optimisation et le déploiement de prompts pour les modèles de langage (LLM).
 
 Ce projet fournit :
+
 - Un **CLI interactif multiplateforme** (`PromptOps Console`) pour automatiser les tâches courantes.
 - Des **templates YAML normalisés** pour générer des prompts optimisés par modèle (GPT-4, Claude 3, Gemini, Qwen).
 - Une **infrastructure CI/CD prête à l'emploi** avec GitHub Actions, Pester, ShellCheck, et markdownlint.
@@ -69,6 +70,7 @@ Templates conformes au schema [`prompts/templates/schema.yml`](prompts/templates
 | `content-pipeline.yml` | Planifier du contenu technique optimisé SEO | GPT, Gemini, Qwen |
 
 Chaque template inclut :
+
 - Variables typées avec validation
 - Guardrails (tokens, température, prohibitions)
 - Critères de qualité et tests de référence
@@ -90,6 +92,7 @@ Workflow [`ci.yml`](.github/workflows/ci.yml) avec matrix de test :
 ```
 
 Déclenchement automatique sur :
+
 - Push vers `main`
 - Pull Request vers `main`
 - Tag `v*.*.*` → workflow `release.yml` (publication GitHub Release)
@@ -108,6 +111,7 @@ Déclenchement automatique sur :
 ```
 
 **DevContainer** : Configuration VS Code prête avec extensions recommandées :
+
 - `ms-vscode.powershell`
 - `timonwong.shellcheck`
 - `DavidAnson.vscode-markdownlint`
@@ -144,6 +148,7 @@ npm install -g markdownlint-cli2
 ### Docker (Optionnel)
 
 Pour une exécution isolée et reproductible :
+
 ```bash
 docker --version  # 20.10+ recommandé
 ```
@@ -252,6 +257,7 @@ PromptOps Console v1.0.0
 ```
 
 Chaque option déclenche un questionnaire guidé (≥4 questions) avec :
+
 - Validation des entrées
 - Résumé des choix
 - Confirmation avant exécution
@@ -305,6 +311,7 @@ docker run -it --rm -v ${PWD}:/app promptops-toolkit:latest bash
 #### DevContainer (VS Code)
 
 La configuration `.devcontainer/devcontainer.json` installe automatiquement :
+
 - PowerShell 7.4
 - ShellCheck
 - markdownlint
@@ -413,6 +420,7 @@ Documentation détaillée dans [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 ### Bonnes Pratiques de Développement
 
 1. **Tests avant commit** :
+
    ```powershell
    # PowerShell
    Invoke-Pester ./tests -CI
@@ -425,6 +433,7 @@ Documentation détaillée dans [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
    ```
 
 2. **Dry-run pour les opérations destructives** :
+
    ```powershell
    .\scripts\PromptOpsConsole.ps1 --whatif
    ```
@@ -442,6 +451,7 @@ Documentation détaillée dans [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 Nous accueillons les contributions ! Veuillez suivre ces étapes :
 
 1. **Fork** le repository et créer une branche feature :
+
    ```bash
    git checkout -b feature/ma-nouvelle-fonctionnalite
    ```
@@ -451,6 +461,7 @@ Nous accueillons les contributions ! Veuillez suivre ces étapes :
    - Mettre à jour la documentation si le comportement change.
 
 3. **Valider localement** :
+
    ```bash
    # Linting
    shellcheck scripts/*.sh
@@ -485,6 +496,7 @@ Error reading file with 'cp1252': 'charmap' codec can't decode byte 0x8f in posi
 ```
 
 Cette erreur affecte les fichiers contenant :
+
 - Des caractères spéciaux UTF-8 (accents, émojis, symboles comme ✓, ⚠, →)
 - Des caractères non-ASCII de contributeurs internationaux
 - Des fichiers Markdown avec formatage spécial
@@ -513,6 +525,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 Un script Python dédié `generate_digest.py` est fourni à la racine du repository pour générer des digests avec une gestion correcte de l'encodage UTF-8.
 
 **Fonctionnalités Clés :**
+
 - `encoding='utf-8'` explicite sur toutes les opérations de lecture de fichiers
 - `encoding='utf-8'` explicite sur toutes les opérations d'écriture de fichiers
 - Gestion gracieuse des fichiers binaires ou non-UTF-8
@@ -564,6 +577,7 @@ prompt-engineer-toolkit/
 **Contexte** : Génération du fichier `digest.txt` avec l'outil `gitingest.exe` sous PowerShell 7.4
 
 **Erreur** :
+
 ```text
 FILE: README.md
 ================================================
@@ -571,11 +585,13 @@ Error reading file with 'cp1252': 'charmap' codec can't decode byte 0x8f in posi
 ```
 
 **Résolution** :
+
 1. Création du script `generate_digest.py` avec encodage UTF-8 explicite
 2. Régénération du digest sans erreurs
 3. Documentation du problème dans cette section pour référence future
 
 **Commande de Vérification** :
+
 ```powershell
 # Après correction, cette commande ne doit retourner aucune erreur
 Select-String -Path .\digest.txt -Pattern "Error reading file with"
@@ -590,7 +606,7 @@ Distribué sous licence **MIT**. Voir [`LICENSE`](LICENSE) pour le texte complet
 ```text
 MIT License
 
-Copyright (c) 2024 prompt-engineer-toolkit
+Copyright (c) 2024 valorisa
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
