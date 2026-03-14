@@ -606,7 +606,7 @@ Distribué sous licence **MIT**. Voir [`LICENSE`](LICENSE) pour le texte complet
 ```text
 MIT License
 
-Copyright (c) 2024 valorisa
+Copyright (c) 2026 valorisa
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
