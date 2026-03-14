@@ -18,3 +18,4 @@ test.txt
 node_modules/
 dist/
 testResults.xml
+examples/
