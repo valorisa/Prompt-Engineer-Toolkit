@@ -1,8 +1,8 @@
 // scripts/node/plugins/index.ts
 
-// Export public API
-export { IPlugin, PluginManifest } from './interfaces/IPlugin.js';
-export { PluginLoader } from './loaders/PluginLoader.js';
+// Export type-only pour les interfaces
+export type { IPlugin, PluginManifest } from './interfaces/IPlugin.js';
 
-// Export exemples (pour démo/dev)
+// Export runtime pour les classes
+export { PluginLoader } from './loaders/PluginLoader.js';
 export { HelloWorldPlugin } from './examples/hello-world/HelloWorldPlugin.js';
