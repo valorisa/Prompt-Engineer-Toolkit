@@ -27,7 +27,7 @@
 - [Contributing](#-contributing)
 - [Dépannage](#-Dépannage)
 - [License](#-license)
-- [Roadmap v2.0](#-roadmap-v20)
+- [Roadmap v2.0](#%EF%B8%8F-roadmap-v20)
 
 ---
 
