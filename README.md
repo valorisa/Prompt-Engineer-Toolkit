@@ -28,7 +28,7 @@
 - [Dépannage](#-Dépannage)
 - [License](#-license)
 - [Roadmap v2.0](#%EF%B8%8F-roadmap-v20)
-- [Support & Community](#Support--Community)
+- [Support & Community](#-Support--Community)
 
 ---
 
