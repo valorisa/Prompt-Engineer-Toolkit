@@ -32,10 +32,38 @@ export class PluginLoader {
    */
   private async loadPlugin(pluginPath: string): Promise<void> {
     try {
-      // TODO: Implémenter le chargement dynamique avec import()
-      console.log(`🔌 Plugin chargé : ${pluginPath}`);
+      // 📁 Chemin vers le fichier principal du plugin
+      const pluginFile = join(pluginPath, 'index.js');
+      
+      // 🔌 Import dynamique du module plugin
+      const module = await import(pluginFile);
+      
+      // 📦 Récupère la classe du plugin (export default ou premier export)
+      const PluginClass = module.default || Object.values(module)[0];
+      
+      if (!PluginClass) {
+        throw new Error(`Aucune classe de plugin exportée dans ${pluginFile}`);
+      }
+      
+      // 🏗️ Instancie le plugin
+      const pluginInstance: IPlugin = new PluginClass();
+      
+      // 📋 Crée le manifest SELON L'INTERFACE PluginManifest
+      const manifest: PluginManifest = {
+        plugin: pluginInstance,  // ← Obligatoire
+        path: pluginPath,        // ← Obligatoire
+        enabled: true,           // ← Obligatoire
+        // dependencies: [],     // ← Optionnel, à ajouter si besoin
+      };
+      
+      // 💾 Stocke dans la Map : clé = pluginInstance.id (de IPlugin)
+      this.plugins.set(pluginInstance.id, manifest);
+      
+      // 🎉 Log avec les propriétés de pluginInstance (IPlugin)
+      console.log(`✅ Plugin chargé : ${pluginInstance.name} v${pluginInstance.version}`);
+      
     } catch (error) {
-      console.error(`❌ Échec chargement plugin ${pluginPath}:`, error);
+      console.error(`❌ Échec chargement plugin ${pluginPath}:`, error instanceof Error ? error.message : String(error));
     }
   }
 
