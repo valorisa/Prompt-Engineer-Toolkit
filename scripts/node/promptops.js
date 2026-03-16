@@ -2,6 +2,7 @@
 /**
  * PromptOps Node Utility
  * License: MIT
+ * @author: valorisa
  * TODO(v2): Add support for JSON Schema validation.
  * TODO(v2): Implement npm publish workflow.
  */

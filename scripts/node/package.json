@@ -9,7 +9,7 @@
     "lint": "echo 'No linting configured'",
     "build": "tsc"
   },
-  "author": "prompt-engineer-toolkit",
+  "author": "valorisa",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^25.5.0",
