@@ -2,7 +2,7 @@
 # Base: PowerShell 7.4 on Ubuntu 22.04
 FROM mcr.microsoft.com/powershell:7.4-ubuntu-22.04 AS base
 
-LABEL maintainer="prompt-engineer-toolkit"
+LABEL maintainer="valorisa"
 LABEL version="1.0.0"
 
 ENV DEBIAN_FRONTEND=noninteractive

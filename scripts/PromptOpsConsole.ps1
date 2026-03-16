@@ -3,7 +3,7 @@
 .SYNOPSIS
     PromptOps Console - Interactive CLI for prompt-engineer-toolkit.
 .NOTES
-    Author: prompt-engineer-toolkit
+    Author: valorisa
     License: MIT
     TODO(v2): Add telemetry opt-in mechanism.
     TODO(v2): Implement plugin architecture for menu extensions.
