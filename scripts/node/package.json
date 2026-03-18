@@ -6,6 +6,9 @@
   "type": "module",
   "scripts": {
     "test": "tsx --test --test-reporter=spec \"**/*.test.ts\"",
+    "test:unit": "tsx --test --test-reporter=spec \"plugins/**/*.test.ts\"",
+    "test:integration": "tsx --test --test-reporter=spec \"tests/integration/**/*.test.ts\"",
+    "test:all": "tsx --test --test-reporter=spec \"**/*.test.ts\"",
     "test:watch": "tsx --test --watch \"**/*.test.ts\"",
     "lint": "echo 'No linting configured'",
     "build": "tsc"
