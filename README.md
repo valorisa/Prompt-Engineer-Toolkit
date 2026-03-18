@@ -21,6 +21,7 @@
   - [Interactive CLI](#interactive-cli)
   - [Super-Prompt Templates](#super-prompt-templates)
   - [Docker & DevContainer](#docker--devcontainer)
+- [Tests Unitaires](#-tests-unitaires)
 - [Repository Structure](#-repository-structure)
 - [CI/CD Pipeline](#-cicd-pipeline)
 - [Security & Best Practices](#-security--best-practices)
