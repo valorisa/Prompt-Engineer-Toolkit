@@ -320,6 +320,45 @@ La configuration `.devcontainer/devcontainer.json` installe automatiquement :
 
 ---
 
+## 🧪 Tests unitaires
+
+Ce projet inclut une suite de tests unitaires et d'intégration pour valider les plugins et le chargement dynamique.
+
+### Exécution
+
+```powershell
+# Tous les tests
+cd scripts/node
+npm test
+
+# Tests unitaires uniquement
+npm run test:unit
+
+# Tests d'intégration uniquement
+npm run test:integration
+```
+
+### Couverture actuelle
+
+| Composant | Tests | Statut |
+|-----------|-------|--------|
+| PromptorPlugin | 11 | ✅ |
+| PluginLoader | 8 | ✅ |
+| Integration CLI | 3 | ✅ |
+| **Total** | **21** | **✅** |
+
+### Ajouter un test
+
+1. Crée un fichier `*.test.ts` dans le même dossier que le composant
+2. Utilise `node:test` et `node:assert/strict`
+3. Lance `npm test` pour valider
+
+### Note technique
+
+Les tests utilisent le runner natif `node:test` avec `tsx` pour l'exécution TypeScript. Une erreur de sérialisation peut apparaître sur Windows (bug connu `tsx#362`), mais tous les tests fonctionnels passent.
+
+---
+
 ## 🗂️ Repository Structure
 
 ```text
