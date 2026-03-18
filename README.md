@@ -355,7 +355,7 @@ npm run test:integration
 
 ### Note technique
 
-Les tests utilisent le runner natif `node:test` avec `tsx` pour l'exécution TypeScript. Une erreur de sérialisation peut apparaître sur Windows (bug connu `tsx#362`), mais tous les tests fonctionnels passent.
+Les tests utilisent le runner natif `node:test` avec `tsx` pour l'exécution TypeScript. Une erreur de sérialisation peut apparaître sur Windows (bug connu `tsx#362`), mais tous les tests fonctionnels passent impeccablement.
 
 ---
 
