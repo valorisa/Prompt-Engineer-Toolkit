@@ -15,17 +15,18 @@ backup-encoding/
 
 # Test files (temporary)
 test.txt
-# Build artifacts
-dist/
-scripts/node/dist/
-
-# Dependencies
 node_modules/
-scripts/node/node_modules/
-
-# Test results
+dist/
 testResults.xml
-*.xml
-
-# Backups
+examples/
 *.bundle
+
+# Node.js build output (specific paths)
+scripts/node/dist/
+scripts/node/node_modules/
+*.js.map
+*.d.ts
+
+# OS files
+.DS_Store
+Thumbs.db

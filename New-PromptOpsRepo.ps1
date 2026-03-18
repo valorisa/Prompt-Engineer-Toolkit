@@ -6,7 +6,7 @@
     Script de bootstrap pour initialiser tous les dossiers et fichiers
     selon la structure canonicalisée v1.0.0.
 .NOTES
-    Author: prompt-engineer-toolkit
+    Author: valorisa
     License: MIT
     Requires: PowerShell 7+
     TODO(v2): Add parameter for custom root path.
@@ -221,7 +221,7 @@ New-SafeFile "scripts/PromptOpsConsole.ps1" @'
 .SYNOPSIS
     PromptOps Console - Interactive CLI for prompt-engineer-toolkit.
 .NOTES
-    Author: prompt-engineer-toolkit
+    Author: valorisa
     License: MIT
     TODO(v2): Add telemetry opt-in mechanism.
     TODO(v2): Implement plugin architecture for menu extensions.
@@ -313,7 +313,7 @@ New-SafeFile "scripts/node/package.json" @'
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint promptops.js"
   },
-  "author": "prompt-engineer-toolkit",
+  "author": "valorisa",
   "license": "MIT"
 }
 '@
@@ -358,7 +358,7 @@ meta:
   id: reverse-engineering-v1
   name: "Reverse Prompt Engineering Assistant"
   version: "1.0.0"
-  author: prompt-engineer-toolkit
+  author: valorisa
   target_models:
     - gpt
     - claude
@@ -399,7 +399,7 @@ meta:
   id: repo-orchestration-v1
   name: "Repository Orchestration Agent"
   version: "1.0.0"
-  author: prompt-engineer-toolkit
+  author: valorisa
   target_models:
     - gpt
     - claude
@@ -431,7 +431,7 @@ meta:
   id: content-pipeline-v1
   name: "Content Pipeline Generator"
   version: "1.0.0"
-  author: prompt-engineer-toolkit
+  author: valorisa
   target_models:
     - gpt
     - gemini
@@ -494,7 +494,7 @@ New-SafeFile "docker/Dockerfile" @'
 # Base: PowerShell 7.4 on Ubuntu 22.04
 FROM mcr.microsoft.com/powershell:7.4-ubuntu-22.04 AS base
 
-LABEL maintainer="prompt-engineer-toolkit"
+LABEL maintainer="valorisa"
 LABEL version="1.0.0"
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -661,7 +661,7 @@ Be respectful and inclusive. Follow standard open source community guidelines.
 New-SafeFile "LICENSE" @'
 MIT License
 
-Copyright (c) 2024 prompt-engineer-toolkit
+Copyright (c) 2026 valorisa
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

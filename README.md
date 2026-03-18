@@ -21,6 +21,7 @@
   - [Interactive CLI](#interactive-cli)
   - [Super-Prompt Templates](#super-prompt-templates)
   - [Docker & DevContainer](#docker--devcontainer)
+- [Tests Unitaires](#-tests-unitaires)
 - [Repository Structure](#-repository-structure)
 - [CI/CD Pipeline](#-cicd-pipeline)
 - [Security & Best Practices](#-security--best-practices)
@@ -320,50 +321,110 @@ La configuration `.devcontainer/devcontainer.json` installe automatiquement :
 
 ---
 
+## 🧪 Tests unitaires
+
+Ce projet inclut une suite de tests unitaires et d'intégration pour valider les plugins et le chargement dynamique.
+
+### Exécution
+
+```powershell
+# Tous les tests
+cd scripts/node
+npm test
+
+# Tests unitaires uniquement
+npm run test:unit
+
+# Tests d'intégration uniquement
+npm run test:integration
+```
+
+### Couverture actuelle
+
+| Composant | Tests | Statut |
+|-----------|-------|--------|
+| PromptorPlugin | 11 | ✅ |
+| PluginLoader | 8 | ✅ |
+| Integration CLI | 3 | ✅ |
+| **Total** | **21** | **✅** |
+
+### Ajouter un test
+
+1. Crée un fichier `*.test.ts` dans le même dossier que le composant
+2. Utilise `node:test` et `node:assert/strict`
+3. Lance `npm test` pour valider
+
+### Note technique
+
+Les tests utilisent le runner natif `node:test` avec `tsx` pour l'exécution TypeScript. Une erreur de sérialisation peut apparaître sur Windows (bug connu `tsx#362`), mais tous les tests fonctionnels passent impeccablement.
+
+---
+
 ## 🗂️ Repository Structure
 
 ```text
 prompt-engineer-toolkit/
-├── .github/
-│   ├── workflows/
-│   │   ├── ci.yml          # Matrix CI: lint + test multi-OS
-│   │   └── release.yml     # Auto-publish on tag v*.*.*
-│   ├── ISSUE_TEMPLATE/
-│   │   └── bug_report.md   # Template standardisé
-│   └── PULL_REQUEST_TEMPLATE.md  # Checklist de review
-├── scripts/
-│   ├── PromptOpsConsole.ps1    # CLI PowerShell (5.1/7+)
-│   ├── PromptOpsConsole.sh     # CLI Bash/Zsh (POSIX)
-│   ├── node/
-│   │   ├── promptops.js        # Utilitaire Node.js
-│   │   └── package.json
-│   └── python/
-│       ├── promptops.py        # Utilitaire Python
-│       └── requirements.txt
-├── prompts/
-│   └── templates/
-│       ├── reverse-engineering.yml  # Template: reverse prompt
-│       ├── repo-orchestration.yml   # Template: scaffolding
-│       ├── content-pipeline.yml     # Template: content planning
-│       └── schema.yml               # Reference schema
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── LICENSE
+├── README.md
+├── RELEASE_CHECKLIST.md
 ├── docker/
-│   └── Dockerfile              # Multi-stage build
-├── .devcontainer/
-│   └── devcontainer.json       # VS Code remote config
-├── tests/
-│   ├── PromptOpsConsole.Tests.ps1  # Pester tests
-│   └── test_promptops.py           # pytest tests
+│ └── Dockerfile
 ├── docs/
-│   ├── ARCHITECTURE.md         # Décisions techniques & sécurité
-│   ├── USAGE.md                # Guide utilisateur détaillé
-│   └── SUPER-PROMPT-SPEC.md    # Spécifications des templates
-├── .shellcheckrc               # Config ShellCheck (severity=warning)
-├── .markdownlint.json          # Config markdownlint (MD013=off, etc.)
-├── README.md                   # Ce fichier
-├── CONTRIBUTING.md             # Guide de contribution
-├── CODE_OF_CONDUCT.md          # Engagement communautaire
-└── LICENSE                     # MIT License
+│ ├── ARCHITECTURE.md
+│ ├── SUPER-PROMPT-SPEC.md
+│ └── USAGE.md
+├── prompts/
+│ └── templates/
+│ ├── content-pipeline.yml
+│ ├── repo-orchestration.yml
+│ ├── reverse-engineering.yml
+│ └── schema.yml
+├── scripts/
+│ ├── PromptOpsConsole.ps1
+│ ├── PromptOpsConsole.sh
+│ ├── node/ # 🟢 Node.js utilities (v2.0.0)
+│ │ ├── config/
+│ │ │ └── system-prompts/
+│ │ │ └── promptor-matrix.md
+│ │ ├── plugins/
+│ │ │ ├── builtins/
+│ │ │ │ └── promptor-matrix/
+│ │ │ │ ├── PromptorPlugin.ts
+│ │ │ │ ├── PromptorPlugin.test.ts
+│ │ │ │ └── index.ts
+│ │ │ ├── examples/
+│ │ │ │ └── hello-world/
+│ │ │ │ ├── HelloWorldPlugin.ts
+│ │ │ │ └── index.ts
+│ │ │ ├── interfaces/
+│ │ │ │ └── IPlugin.ts
+│ │ │ └── loaders/
+│ │ │ ├── PluginLoader.ts
+│ │ │ └── PluginLoader.test.ts
+│ │ ├── tests/
+│ │ │ └── integration/
+│ │ │ ├── cli-flow.test.ts
+│ │ │ └── fixtures/
+│ │ ├── promptops.ts # 🟢 CLI principale
+│ │ ├── package.json
+│ │ ├── tsconfig.json
+│ │ └── node_modules/ # ⚠️ Exclu du git (généré)
+│ └── python/
+│ ├── promptops.py
+│ └── requirements.txt
+└── tests/
+├── PromptOpsConsole.Tests.ps1
+└── test_promptops.py
 ```
+
+### 📝 Notes
+
+- **`node_modules/`** : Exclu du git (généré par `npm install`)
+- **`dist/`** : Exclu du git (généré par `npm run build`)
+- **`*.test.ts`** : Fichiers de tests unitaires
+- **`index.ts`** : Point d'entrée pour chargement dynamique des plugins
 
 ---
 
