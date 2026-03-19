@@ -32,7 +32,7 @@ jobs:
         uses: ludeeus/action-shellcheck@master
         with:
           check_together: 'yes'
-          scan: "scripts/"
+          scandir: "scripts/"
 
   test-powershell:
     runs-on: ${{ matrix.os }}
