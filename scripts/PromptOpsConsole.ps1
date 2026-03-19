@@ -23,7 +23,13 @@ param(
 # ============================================================================
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding = [System.Text.Encoding]::UTF8
-[System.Console]::TreatControlCAsInput = $true
+
+# ✅ WRAPPER DANS TRY-CATCH POUR CI/CD
+try {
+    [System.Console]::TreatControlCAsInput = $true
+} catch {
+# Ignorer en environnement headless (CI/CD, Docker, etc.)
+}
 
 # ============================================================================
 # CONFIGURATION GLOBALE
