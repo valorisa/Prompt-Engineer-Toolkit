@@ -32,7 +32,7 @@ export class PromptorPlugin implements IPlugin {
   /**
    * Exécution : affiche la matrice pour l'utilisateur
    */
-  async execute(input: unknown): Promise<unknown> {
+  async execute(input: unknown): Promise<{ success: boolean; matrix: string; instructions: string }> {
     await this.initialize();
     
     // En-tête
@@ -55,7 +55,7 @@ export class PromptorPlugin implements IPlugin {
     
     return { 
       success: true, 
-      matrix: this.matrix,
+      matrix: String(this.matrix),
       instructions: 'Copier-coller dans ton LLM préféré'
     };
   }
@@ -75,7 +75,7 @@ export class PromptorPlugin implements IPlugin {
 
 // Pour tester : npx tsx plugins/builtins/PromptorPlugin.ts
 // Ce code s'exécute uniquement en mode test direct
-const isDirectExecution = process.argv[1]?.endsWith('PromptorPlugin.ts');
+const isDirectExecution = process.argv[1] === fileURLToPath(import.meta.url);
 
 if (isDirectExecution) {
   (async () => {
@@ -86,6 +86,7 @@ if (isDirectExecution) {
     try {
       await plugin.execute({});
       console.log('\n✅ Test terminé avec succès');
+      process.exit(0);
     } catch (error) {
       console.error('\n❌ Erreur lors du test:', error instanceof Error ? error.message : String(error));
       process.exit(1);
